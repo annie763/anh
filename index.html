@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yêu em không? 💖</title>
+    <!-- Thêm link Google Fonts cho Playfair England SemiJoined và Dancing Script -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Playfair Display', serif; /* Font Playwrite England SemiJoined */
+            text-align: center;
+            background-color: #FFEDFA;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container {
+            margin-top: 120px;
+            padding: 20px;
+            background-color: #FFEFEF;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .gif {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .question {
+            font-size: 24px; /* Giảm kích thước chữ cho câu hỏi */
+            font-weight: bold;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        #yes {
+            background-color: #FFEB74;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #no {
+            background-color: #FFC6C6;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        .message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 22px;
+            font-weight: normal;
+            color: #333;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 1.5;
+            display: none; /* Ban đầu ẩn tin nhắn */
+            white-space: pre-line; /* Đảm bảo văn bản xuống dòng hợp lý */
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        #heart-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        .flower-gif-container {
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .flower-gif {
+            width: 100px;
+            height: 100px;
+            animation: flowerGrow 3s ease-in-out forwards;
+        }
+
+        @keyframes flowerGrow {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .letter {
+            display: inline-block;
+            opacity: 0;
+            animation: type 0.05s forwards; /* Thời gian hiển thị chữ nhanh hơn */
+        }
+
+        @keyframes type {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <img class="gif" src="https://i.postimg.cc/hPwc6Q83/56132a28615829b280e6d64b39867d4b.gif" alt="Mochi Cat Kiss GIF">
+        <p class="question">Anh có yêu em không? 🥰</p>
+        <div class="buttons">
+            <button id="yes" class="button" onclick="showLove()">Có ❤️</button>
+            <button id="no" class="button" onclick="moveNo()">Không 💔</button>
+        </div>
+    </div>
+
+    <div id="heart-container"></div>
+
+    <!-- Nhúng âm thanh từ Google Drive -->
+    <audio id="audio" src="https://drive.google.com/uc?export=download&id=12345ABCDE" preload="auto"></audio>
+
+    <!-- Đoạn tin nhắn cuối -->
+    <p class="message" id="final-message">
+        Em là Hải Anh bạn gái của anh nè. Em cảm ơn vì anh đã thương yêu em rất nhiều và em cũng thương yêu Thế Khương của em nhiều nhiều lắm. Lâu lâu em rắc rối, hay kiếm chuyện làm anh buồn nhưng mà anh đừng hết thương em nha. Em biết đó là tật xấu của em nên em đang sửa đổi dần. Anh bỏ rơi em thì em sẽ rất rất buồn và nhớ anh nữa. Em hong muốn xa anh đâuuuuu
+    </p>
+
+    <script>
+        function showLove() {
+            console.log("Nút 'Có' đã được nhấn!");
+            alert("Em biết mà, yêu anh nhất! 💖💖💖");
+            createHearts();
+            createFlowerGIF();
+            setTimeout(() => {
+                document.getElementById("final-message").style.display = "block"; // Hiển thị tin nhắn sau khi các hiệu ứng kết thúc
+                playAudio(); // Phát âm thanh khi tin nhắn hiện ra
+                revealMessage(); // Hiển thị tin nhắn dần dần từng chữ
+                hideAllElements(); // Ẩn tất cả các phần tử khác
+            }, 5000); // 5 giây để các hiệu ứng diễn ra
+        }
+
+        function moveNo() {
+            let noButton = document.getElementById("no");
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 50);
+            noButton.style.position = "absolute";
+            noButton.style.left = x + "px";
+            noButton.style.top = y + "px";
+        }
+
+        function createHearts() {
+            let heartContainer = document.getElementById("heart-container");
+            for (let i = 0; i < 30; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                heartContainer.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }
+        }
+
+        function createFlowerGIF() {
+            let flowerContainer = document.createElement("div");
+            flowerContainer.classList.add("flower-gif-container");
+
+            let flowerGIF = document.createElement("img");
+            flowerGIF.classList.add("flower-gif");
+            flowerGIF.src = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXR0d2V4bTVpaDNkM3NoNDQwYmMzMGdoNnIzc3Y2NDY1ZmE2dDF6aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/OCmllnXhSdfpm6na2D/giphy.gif";
+            flowerGIF.alt = "Flower Growing GIF";
+
+            flowerContainer.appendChild(flowerGIF);
+            document.body.appendChild(flowerContainer);
+
+            setTimeout(() => {
+                flowerContainer.remove();
+            }, 3000); 
+        }
+
+        function playAudio() {
+            let audio = document.getElementById("audio");
+            audio.play(); // Phát âm thanh
+        }
+
+        function revealMessage() {
+            let message = document.getElementById("final-message");
+            let messageText = message.innerText;
+            message.innerHTML = ""; // Clear nội dung ban đầu
+            for (let i = 0; i < messageText.length; i++) {
+                let letter = document.createElement("span");
+                letter.classList.add("letter");
+                letter.innerText = messageText[i];
+                message.appendChild(letter);
+                letter.style.animationDelay = `${i * 0.05}s`; // Hiển thị chữ với độ trễ 0.05s
+            }
+        }
+
+        function hideAllElements() {
+            // Ẩn tất cả các phần tử, chỉ giữ lại background
+            document.getElementById("container").style.display = "none";
+            document.getElementById("heart-container").style.display = "none";
+            document.getElementById("yes").style.display = "none";
+            document.getElementById("no").style.display = "none";
+        }
+    </script>
+</body>
+</html>
